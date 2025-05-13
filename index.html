@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EgoFest Rosters</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1rem; }
+    .team { margin-bottom: 2rem; }
+    .team h2 { margin-bottom: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>My Fantasy League Rosters</h1>
+  <div id="rosters">Loading…</div>
+
+  <script>
+  (async function() {
+    // 1) Load cached players.json
+    const playersMap = await fetch('/players.json').then(r => r.json());
+    // 2) Fetch the small roster payload
+    const rosters = await fetch('https://api.sleeper.app/v1/league/1226594146450423808/rosters')
+                         .then(r => r.json());
+
+    const container = document.getElementById('rosters');
+    container.innerHTML = '';
+
+    rosters.forEach(r => {
+      // Pick a team name from metadata or fall back to roster_id
+      let teamName = `Roster ${r.roster_id}`;
+      if (r.metadata) {
+        const nicknames = Object.values(r.metadata).filter(n => n);
+        if (nicknames.length) teamName = nicknames[0];
+      }
+
+      const div = document.createElement('div');
+      div.className = 'team';
+      div.innerHTML = `<h2>${teamName}</h2>`;
+
+      const ul = document.createElement('ul');
+      r.players.forEach(pid => {
+        const p = playersMap[pid];
+        const name = p ? p.full_name : pid;
+        const info = p ? ` (${p.position}/${p.team})` : '';
+        ul.innerHTML += `<li>${name}${info}</li>`;
+      });
+      div.appendChild(ul);
+      container.appendChild(div);
+    });
+  })();
+  </script>
+</body>
+</html>
