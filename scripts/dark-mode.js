@@ -3,6 +3,12 @@ document.addEventListener("rosters:rendered", () => {
   applyTheme(prefersDark);
 });
 
+function toggleTheme(e) {
+  e.preventDefault();
+  const isNowDark = !htmlEl.classList.contains("dark");
+  applyTheme(isNowDark);
+}
+
 const btn = document.getElementById("theme-toggle");
 const htmlEl = document.documentElement;
 const CLASS_MAP = [
