@@ -11,18 +11,17 @@ body {
 
   #rosters {
     display: grid;
-    gap: 2rem;              /* space between cards */
-    grid-template-columns: 1fr;  /* 1 column by default */
+    gap: 1rem;
+    /* one column by default (mobile) */
+    grid-template-columns: 1fr;
   }
   
-  /* medium screens: 2 columns */
-  @media (min-width: 640px) {
+  @media (min-width: 700px) {
     #rosters {
       grid-template-columns: repeat(2, 1fr);
     }
   }
   
-  /* large screens (desktop): 4 columns */
   @media (min-width: 1024px) {
     #rosters {
       grid-template-columns: repeat(4, 1fr);
