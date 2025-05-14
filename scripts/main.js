@@ -37,9 +37,20 @@
 
     const teamName = teamNameByOwner[r.owner_id] || `Roster ${r.roster_id}`;
 
+    const header = document.createElement("div");
+    header.className = "team-header";
+
     const h2 = document.createElement("h2");
     h2.textContent = teamName;
-    card.appendChild(h2);
+
+    const { fpts, wins, losses } = r.settings || {};
+
+    const stats = document.createElement("small");
+    stats.className = "team-stats";
+    stats.textContent = `${fpts} total points | ${wins}–${losses}`;
+
+    header.append(h2, stats);
+    card.appendChild(header);
 
     const sortedIds = [...r.players].sort((a, b) => {
       const pa = playersMap[a] || {};
