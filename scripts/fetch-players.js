@@ -1,5 +1,5 @@
 // scripts/fetch-players.js
-import fs from "fs/promises";
+const fs = require("fs/promises");
 
 async function main() {
   console.log("Fetching players…");
