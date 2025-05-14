@@ -16,7 +16,7 @@
   <script>
   (async function() {
     // 1) Load cached players.json
-    const playersMap = await fetch('/players.json').then(r => r.json());
+    const playersMap = await fetch('players.json').then(r => r.json());
     // 2) Fetch the small roster payload
     const rosters = await fetch('https://api.sleeper.app/v1/league/1226594146450423808/rosters')
                          .then(r => r.json());
