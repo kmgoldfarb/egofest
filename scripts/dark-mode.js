@@ -23,10 +23,8 @@ const CLASS_MAP = [
   ["pos-LB", "pos-LB--dark"],
 ];
 
-// swap each element’s class from→to
 function swapClasses(isDark) {
   CLASS_MAP.forEach(([light, dark]) => {
-    // when dark: replace light→dark; when light: replace dark→light
     const from = isDark ? light : dark;
     const to = isDark ? dark : light;
     document.querySelectorAll(`.${from}`).forEach((el) => {
@@ -35,7 +33,6 @@ function swapClasses(isDark) {
   });
 }
 
-// apply the theme: set html class + swap your mapped classes + update the button
 function applyTheme(isDark) {
   htmlEl.classList.toggle("dark", isDark);
   swapClasses(isDark);
@@ -43,18 +40,14 @@ function applyTheme(isDark) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 1) on load, pick up the OS/browser preference
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   applyTheme(prefersDark);
 
-  // 2) listen for system changes (optional)
   window
     .matchMedia("(prefers-color-scheme: dark)")
     .addEventListener("change", (e) => applyTheme(e.matches));
 
-  // 3) user toggle
   btn.addEventListener("click", () => {
-    // flip whatever the current state is
     const isNowDark = !htmlEl.classList.contains("dark");
     applyTheme(isNowDark);
   });
