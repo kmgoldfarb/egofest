@@ -3,12 +3,6 @@ document.addEventListener("rosters:rendered", () => {
   applyTheme(prefersDark);
 });
 
-function toggleTheme(e) {
-  e.preventDefault();
-  const isNowDark = !htmlEl.classList.contains("dark");
-  applyTheme(isNowDark);
-}
-
 const btn = document.getElementById("theme-toggle");
 const htmlEl = document.documentElement;
 const CLASS_MAP = [
@@ -39,16 +33,16 @@ function applyTheme(isDark) {
   btn.textContent = isDark ? "Light Mode" : "Dark Mode";
 }
 
+function toggleTheme(e) {
+  e.preventDefault();
+  const isNowDark = !htmlEl.classList.contains("dark");
+  applyTheme(isNowDark);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   applyTheme(prefersDark);
 
-  window
-    .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", (e) => applyTheme(e.matches));
-
-  btn.addEventListener("click", () => {
-    const isNowDark = !htmlEl.classList.contains("dark");
-    applyTheme(isNowDark);
-  });
+  btn.addEventListener("click", toggleTheme);
+  btn.addEventListener("touchend", toggleTheme);
 });
