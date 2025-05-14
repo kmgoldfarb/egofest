@@ -6,6 +6,7 @@ body {
     margin: auto;
     padding: 1rem;
     background: #f5f5f5;
+    max-width: 90%;
   }
 
   #rosters {
@@ -50,10 +51,11 @@ body {
   }
   
   .roster li {
-    display: flex;
+    display: grid;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: .5rem;
+    grid-template-columns: auto auto auto 1fr;
+    column-gap: 0.75rem;
+    margin-bottom: 0.5rem;
   }
   
   .roster li:last-child {
@@ -86,10 +88,11 @@ ul.roster li span[class^="pos-"] {
   .pos-K   { background-color: #dda0dd;   } /* light purple */
   .pos-LB,
   .pos-DB,
-  .pos-DE { background-color: rgb(75, 68, 68); }
+  .pos-DE,
+  .pos-DL { background-color: rgb(75, 68, 68); }
   
   .player {
-    flex: 1;
+    /*flex: 1;*/
     color: black;
     font-weight: 600;
   }
@@ -98,4 +101,9 @@ ul.roster li span[class^="pos-"] {
     color: #555;
     font-weight: 500;
     font-style: italic;
+  }
+
+  .status {
+    color:red;
+    justify-self: end;
   }
