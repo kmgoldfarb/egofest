@@ -32,18 +32,15 @@
   });
 
   rosters.forEach((r) => {
-    // ——— Card & Header Setup ———
     const card = document.createElement("div");
     card.className = "team-card";
 
-    // grab the *team* name via owner_id
     const teamName = teamNameByOwner[r.owner_id] || `Roster ${r.roster_id}`;
 
     const h2 = document.createElement("h2");
     h2.textContent = teamName;
     card.appendChild(h2);
 
-    // ——— Sort players ———
     const sortedIds = [...r.players].sort((a, b) => {
       const pa = playersMap[a] || {};
       const pb = playersMap[b] || {};
@@ -59,23 +56,36 @@
       return lastA.localeCompare(lastB);
     });
 
-    // ——— Render roster ———
     const ul = document.createElement("ul");
     ul.className = "roster";
 
     sortedIds.forEach((pid) => {
       const p = playersMap[pid] || {};
+
+      const parts = [];
+
+      if (p.injury_status) {
+        parts.push(`<span class="status-injury">${p.injury_status}</span>`);
+      }
+
+      if (Array.isArray(r.taxi) && r.taxi.includes(pid)) {
+        if (parts.length) {
+          parts.push(`<span class="status-separator"> | </span>`);
+        }
+        parts.push(`<span class="status-taxi">Taxi</span>`);
+      }
+
       const pos = p.position || "";
       const name = p.full_name || pid;
       const team = p.team || "";
-      const status = p.injury_status || "";
+      const statusHTML = parts.join("");
 
       const li = document.createElement("li");
       li.innerHTML = `
         <span class="pos-${pos}">${pos}</span>
         <span class="player">${name}</span>
         <span class="team-name">${team}</span>
-        <span class="status">${status || ""}</span>
+        <span class="status">${statusHTML}</span>
       `;
       ul.appendChild(li);
     });
