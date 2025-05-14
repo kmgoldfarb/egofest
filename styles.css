@@ -1,15 +1,47 @@
 /* styles.css */
+:root {
+  --bg-page: #f5f5f5;
+  --text-main: #000;
+  --bg-card: #fff;
+  --border: #ccc;
+}
+
+:root.dark {
+  --bg-page: #1f1f1f;
+  --text-main: #eee;
+  --bg-card: #1a1b2b;
+  --border: #adadad;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--text-main);
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1rem;
+}
+
+.theme-toggle:hover {
+  opacity: 0.8;
+}
 
 body {
   font-family: sans-serif;
   font-size: small;
   margin: auto;
   padding: 1rem;
-  background: #f5f5f5;
-}
-
-h2 {
-  font-size: 1rem;
+  background: var(--bg-page);
+  color: var(--text-main);
 }
 
 #rosters {
@@ -38,8 +70,8 @@ h2 {
 }
 
 .team-card {
-  background: #fff;
-  border: 2px solid #ccc;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -78,8 +110,6 @@ ul.roster li span[class^="pos-"] {
   height: 1.5rem;
   margin-right: 0.5rem;
   border-radius: 0.25rem;
-
-  /* text styling */
   color: #fff;
   font-weight: 700;
   font-style: normal;
@@ -87,22 +117,21 @@ ul.roster li span[class^="pos-"] {
   line-height: 1;
 }
 
-/* now just set the background for each specific badge */
 .pos-QB {
   background-color: #ff6b6b;
-} /* red‐pink */
+}
 .pos-RB {
-  background-color: teal;
+  background-color: rgb(25, 184, 157);
 }
 .pos-WR {
   background-color: royalblue;
 }
 .pos-TE {
-  background-color: rgb(228, 194, 0);
+  background-color: rgb(240, 175, 54);
 }
 .pos-K {
   background-color: #dda0dd;
-} /* light purple */
+}
 .pos-LB,
 .pos-DB,
 .pos-DE,
@@ -110,9 +139,20 @@ ul.roster li span[class^="pos-"] {
   background-color: rgb(75, 68, 68);
 }
 
+.pos-LB--dark,
+.pos-DB--dark,
+.pos-DE--dark,
+.pos-DL--dark {
+  background-color: rgb(145, 116, 102);
+}
+
 .player {
-  /*flex: 1;*/
   color: black;
+  font-weight: 600;
+}
+
+.player--dark {
+  color: #eee;
   font-weight: 600;
 }
 
@@ -122,8 +162,19 @@ ul.roster li span[class^="pos-"] {
   font-style: italic;
 }
 
+.team-name--dark {
+  color: #ccc;
+  font-weight: 500;
+  font-style: italic;
+}
+
 .status-injury {
   color: red;
+  font-weight: 500;
+}
+
+.status-injury--dark {
+  color: rgb(226, 98, 98);
   font-weight: 500;
 }
 
@@ -135,6 +186,12 @@ ul.roster li span[class^="pos-"] {
   color: navy;
   font-weight: 500;
 }
+
+.status-taxi--dark {
+  color: rgb(122, 163, 163);
+  font-weight: 500;
+}
+
 .status {
   justify-self: end;
 }
@@ -148,11 +205,19 @@ ul.roster li span[class^="pos-"] {
 
 .team-header h2 {
   margin: 0;
-  font-size: 1.25rem;
+  padding-right: 0.1rem;
+  font-size: 1.1rem;
 }
 
 .team-stats {
   color: #666;
+  font-size: 0.9rem;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.team-stats--dark {
+  color: #ccc;
   font-size: 0.9rem;
   font-weight: normal;
   font-style: normal;

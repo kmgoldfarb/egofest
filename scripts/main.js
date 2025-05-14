@@ -1,5 +1,5 @@
 (async function () {
-  // 1) kick off all three fetches in parallel
+  // kick off all three fetches
   const [playersMap, rosters, users] = await Promise.all([
     fetch("players.json").then((r) => r.json()),
     fetch("https://api.sleeper.app/v1/league/1226594146450423808/rosters").then(
@@ -10,7 +10,6 @@
     ),
   ]);
 
-  // 2) build owner→teamName lookup
   const teamNameByOwner = {};
   users.forEach((u) => {
     // metadata.team_name is your league-team name
@@ -47,7 +46,7 @@
 
     const stats = document.createElement("small");
     stats.className = "team-stats";
-    stats.textContent = `${fpts} total points | ${wins}–${losses}`;
+    stats.textContent = `${wins}–${losses} | ${fpts} total points`;
 
     header.append(h2, stats);
     card.appendChild(header);
@@ -103,5 +102,6 @@
 
     card.appendChild(ul);
     container.appendChild(card);
+    document.dispatchEvent(new Event("rosters:rendered"));
   });
 })();
