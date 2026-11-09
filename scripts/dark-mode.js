@@ -1,6 +1,6 @@
+// Cards are built after load, so re-apply the current theme to them
 document.addEventListener("rosters:rendered", () => {
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  applyTheme(prefersDark);
+  applyTheme(htmlEl.classList.contains("dark"));
 });
 
 const btn = document.getElementById("theme-toggle");
@@ -37,11 +37,14 @@ function toggleTheme(e) {
   e.preventDefault();
   const isNowDark = !htmlEl.classList.contains("dark");
   applyTheme(isNowDark);
+  try { localStorage.setItem("theme", isNowDark ? "dark" : "light"); } catch (_) {}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  let stored = null;
+  try { stored = localStorage.getItem("theme"); } catch (_) {}
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  applyTheme(prefersDark);
+  applyTheme(stored ? stored === "dark" : prefersDark);
 
   btn.addEventListener("click", toggleTheme);
   btn.addEventListener("touchend", toggleTheme);

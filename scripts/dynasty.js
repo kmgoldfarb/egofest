@@ -79,7 +79,9 @@
     sec.append(el("p", "dyn-note",
       "Ages cover QB/RB/WR/TE only. Window compares each team to the league median for age and win percentage."));
 
-    if (A.played) {
+    if (A.played && typeof Chart === "undefined") {
+      sec.append(el("p", "dyn-note", "Chart library failed to load; showing the table only."));
+    } else if (A.played) {
       const wrap = el("div", "chart-wrap");
       const canvas = el("canvas");
       wrap.append(canvas);
@@ -113,7 +115,7 @@
         data: { datasets: [{ data: pts.map((t) => ({ x: t.age, y: t.winPct * 100 })), backgroundColor: "#4c8bf5", pointRadius: 6 }] },
         options: {
           maintainAspectRatio: false,
-          layout: { padding: { right: 90 } },
+          layout: { padding: { right: window.innerWidth < 600 ? 50 : 90 } },
           plugins: {
             legend: { display: false },
             tooltip: { callbacks: { label: (c) => `${pts[c.dataIndex].name}: age ${fmt(c.parsed.x)}, ${fmt(c.parsed.y, 0)}% wins` } },
@@ -244,17 +246,24 @@
     if (!D || !root) return;
     charts.forEach((c) => c.destroy());
     charts = [];
-    root.hidden = false;
-    root.replaceChildren(el("h1", null, "Dynasty Analytics"), renderWindow(D), await renderPicks(D));
+    root.replaceChildren();
+    for (const build of [renderWindow, renderPicks]) {
+      try {
+        root.append(await build(D));
+      } catch (e) {
+        console.error(e);
+        root.append(el("p", "dyn-note", `Couldn't build ${build.name}: ${e.message}`));
+      }
+    }
   }
 
-  let started = false;
-  document.addEventListener("rosters:rendered", () => {
-    if (started) return;
-    started = true;
+  window.EGOFEST_LOADED.then(() => {
     render().catch((e) => console.error(e));
     // redraw charts when the theme changes so colors stay readable
     new MutationObserver(() => render().catch(console.error))
       .observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+  }).catch((e) => {
+    console.error(e);
+    root.textContent = "Couldn't load data. Please refresh in a minute.";
   });
 })();

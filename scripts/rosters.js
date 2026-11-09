@@ -1,36 +1,15 @@
 (async function () {
-  const LEAGUE_ID = "1362433573851783168";
   const container = document.getElementById("rosters");
 
-  // Bypass stale HTTP caches (GitHub Pages caches ~10 min) and surface errors
-  const getJSON = async (url) => {
-    const res = await fetch(url, { cache: "no-cache" });
-    if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
-    return res.json();
-  };
-
-  let playersMap, rosters, users;
+  let D;
   try {
-    [playersMap, rosters, users] = await Promise.all([
-    getJSON("players.json"),
-    getJSON(`https://api.sleeper.app/v1/league/${LEAGUE_ID}/rosters`),
-    getJSON(`https://api.sleeper.app/v1/league/${LEAGUE_ID}/users`),
-    ]);
+    D = await window.EGOFEST_LOADED;
   } catch (err) {
     console.error(err);
     container.textContent = "Couldn't load roster data. Please refresh in a minute.";
     return;
   }
-
-  const teamNameByOwner = {};
-  users.forEach((u) => {
-    // metadata.team_name is your league-team name
-    const name =
-      u.metadata?.team_name ||
-      u.display_name || // fallback if no metadata
-      `Owner ${u.user_id}`;
-    teamNameByOwner[u.user_id] = name;
-  });
+  const { rosters, playersMap, teamNameByOwner } = D;
 
   const posOrder = ["QB", "RB", "WR", "TE", "DB", "DE", "DL", "LB", "K"];
   container.innerHTML = "";
@@ -115,8 +94,5 @@
     card.appendChild(ul);
     container.appendChild(card);
   });
-  // hand data to the dynasty analytics module
-  const nameOf = (r) => teamNameByOwner[r.owner_id] || `Roster ${r.roster_id}`;
-  window.EGOFEST = { leagueId: LEAGUE_ID, rosters, users, playersMap, getJSON, teamName: nameOf };
   document.dispatchEvent(new Event("rosters:rendered"));
 })();
