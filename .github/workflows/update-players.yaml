@@ -5,8 +5,12 @@ permissions:
 
 on:
   schedule:
-    - cron: "0 6 * * *" # every day at 06:00 UTC
+    - cron: "17 */6 * * *" # every 6 hours, off the :00 mark to dodge GitHub's cron congestion
   workflow_dispatch: # allows manual trigger
+
+concurrency:
+  group: update-players
+  cancel-in-progress: false
 
 jobs:
   update-players:
@@ -14,14 +18,14 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: true
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
 
       - name: Fetch latest players.json
         run: node scripts/fetch-players.js

@@ -1,14 +1,25 @@
 (async function () {
-  // kick off all three fetches
-  const [playersMap, rosters, users] = await Promise.all([
-    fetch("players.json").then((r) => r.json()),
-    fetch("https://api.sleeper.app/v1/league/1226594146450423808/rosters").then(
-      (r) => r.json()
-    ),
-    fetch("https://api.sleeper.app/v1/league/1226594146450423808/users").then(
-      (r) => r.json()
-    ),
-  ]);
+  const container = document.getElementById("rosters");
+
+  // Bypass stale HTTP caches (GitHub Pages caches ~10 min) and surface errors
+  const getJSON = async (url) => {
+    const res = await fetch(url, { cache: "no-cache" });
+    if (!res.ok) throw new Error(`${url} -> HTTP ${res.status}`);
+    return res.json();
+  };
+
+  let playersMap, rosters, users;
+  try {
+    [playersMap, rosters, users] = await Promise.all([
+    getJSON("players.json"),
+    getJSON("https://api.sleeper.app/v1/league/1226594146450423808/rosters"),
+    getJSON("https://api.sleeper.app/v1/league/1226594146450423808/users"),
+    ]);
+  } catch (err) {
+    console.error(err);
+    container.textContent = "Couldn't load roster data. Please refresh in a minute.";
+    return;
+  }
 
   const teamNameByOwner = {};
   users.forEach((u) => {
@@ -21,7 +32,6 @@
   });
 
   const posOrder = ["QB", "RB", "WR", "TE", "DB", "DE", "DL", "LB", "K"];
-  const container = document.getElementById("rosters");
   container.innerHTML = "";
 
   rosters.sort((a, b) => {
@@ -42,11 +52,12 @@
     const h2 = document.createElement("h2");
     h2.textContent = teamName;
 
-    const { fpts, wins, losses } = r.settings || {};
+    const { wins = 0, losses = 0, fpts = 0, fpts_decimal = 0 } = r.settings || {};
+    const totalPts = (fpts + fpts_decimal / 100).toFixed(2);
 
     const stats = document.createElement("small");
     stats.className = "team-stats";
-    stats.textContent = `${wins}–${losses} | ${fpts} total points`;
+    stats.textContent = `${wins}–${losses} | ${totalPts} total points`;
 
     header.append(h2, stats);
     card.appendChild(header);
@@ -102,6 +113,6 @@
 
     card.appendChild(ul);
     container.appendChild(card);
-    document.dispatchEvent(new Event("rosters:rendered"));
   });
+  document.dispatchEvent(new Event("rosters:rendered"));
 })();
