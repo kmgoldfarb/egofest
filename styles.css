@@ -222,3 +222,19 @@ ul.roster li span[class^="pos-"] {
   font-weight: normal;
   font-style: normal;
 }
+
+/* ---- Dynasty analytics ---- */
+.dynasty { margin-top: 2rem; }
+.dyn-block { background: var(--bg-card); border: 2px solid var(--border); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; box-sizing: border-box; }
+.dyn-note { font-size: 0.85rem; opacity: 0.8; }
+.chart-wrap { position: relative; height: 420px; margin: 1rem 0; }
+.table-scroll { overflow-x: auto; }
+.dyn-table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+.dyn-table th, .dyn-table td { padding: 4px 8px; border-bottom: 1px solid var(--border); text-align: center; white-space: nowrap; }
+.dyn-table th:first-child, .dyn-table td:first-child { text-align: left; }
+.pick-own { color: #4c8bf5; }
+.pick-acq { color: #2e9e5b; font-size: 0.8rem; }
+.pick-away { opacity: 0.4; }
+.net-pos, .win-contender, .win-winnow { color: #2e9e5b; font-weight: bold; }
+.net-neg, .win-retool { color: #d0562f; font-weight: bold; }
+.win-rebuild { color: #c79a1e; font-weight: bold; }

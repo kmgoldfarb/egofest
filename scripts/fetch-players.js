@@ -7,7 +7,7 @@ async function main() {
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const all = await res.json();
 
-  // Keep only the fields the site renders (~19 MB -> ~1-2 MB)
+  // Keep only the fields the site uses (~19 MB -> ~1-2 MB)
   const slim = {};
   for (const [id, p] of Object.entries(all)) {
     slim[id] = {
@@ -15,6 +15,9 @@ async function main() {
       position: p.position,
       team: p.team,
       injury_status: p.injury_status,
+      age: p.age,
+      birth_date: p.birth_date,
+      years_exp: p.years_exp,
     };
   }
 

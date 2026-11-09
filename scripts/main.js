@@ -1,4 +1,5 @@
 (async function () {
+  const LEAGUE_ID = "1362433573851783168";
   const container = document.getElementById("rosters");
 
   // Bypass stale HTTP caches (GitHub Pages caches ~10 min) and surface errors
@@ -12,8 +13,8 @@
   try {
     [playersMap, rosters, users] = await Promise.all([
     getJSON("players.json"),
-    getJSON("https://api.sleeper.app/v1/league/1362433573851783168/rosters"),
-    getJSON("https://api.sleeper.app/v1/league/1362433573851783168/users"),
+    getJSON(`https://api.sleeper.app/v1/league/${LEAGUE_ID}/rosters`),
+    getJSON(`https://api.sleeper.app/v1/league/${LEAGUE_ID}/users`),
     ]);
   } catch (err) {
     console.error(err);
@@ -114,5 +115,8 @@
     card.appendChild(ul);
     container.appendChild(card);
   });
+  // hand data to the dynasty analytics module
+  const nameOf = (r) => teamNameByOwner[r.owner_id] || `Roster ${r.roster_id}`;
+  window.EGOFEST = { leagueId: LEAGUE_ID, rosters, users, playersMap, getJSON, teamName: nameOf };
   document.dispatchEvent(new Event("rosters:rendered"));
 })();
