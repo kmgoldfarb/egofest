@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Egofest Analytics</title>
-    <script src="scripts/dark-mode.js?v=3" defer></script>
-    <link rel="stylesheet" href="styles.css?v=3" />
+    <script src="scripts/dark-mode.js?v=4" defer></script>
+    <link rel="stylesheet" href="styles.css?v=4" />
   </head>
   <body>
     <header class="site-header">
@@ -18,9 +18,23 @@
       <a href="index.html">Rosters</a>
       <a href="analytics.html" aria-current="page">Analytics</a>
     </nav>
-    <section id="dynasty" class="dynasty">Loading…</section>
+    <div class="subnav" role="tablist" aria-label="Analytics sections">
+      <button type="button" data-tab="dynasty" role="tab">Age &amp; Picks</button>
+      <button type="button" data-tab="lineups" role="tab">Lineups</button>
+      <button type="button" data-tab="consistency" role="tab">Consistency</button>
+      <button type="button" data-tab="grades" role="tab">Grades</button>
+    </div>
+    <section id="tab-dynasty" class="tab"><div id="dynasty" class="dynasty">Loading…</div></section>
+    <section id="tab-lineups" class="tab" hidden><div id="lineups"></div></section>
+    <section id="tab-consistency" class="tab" hidden><div id="consistency"></div></section>
+    <section id="tab-grades" class="tab" hidden><div id="grades"></div></section>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
-    <script src="scripts/data.js?v=3" defer></script>
-    <script src="scripts/dynasty.js?v=3" defer></script>
+    <script src="scripts/util.js?v=4" defer></script>
+    <script src="scripts/data.js?v=4" defer></script>
+    <script src="scripts/season-data.js?v=4" defer></script>
+    <script src="scripts/dynasty.js?v=4" defer></script>
+    <script src="scripts/lineups.js?v=4" defer></script>
+    <script src="scripts/grades.js?v=4" defer></script>
+    <script src="scripts/tabs.js?v=4" defer></script>
   </body>
 </html>

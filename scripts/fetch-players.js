@@ -18,6 +18,7 @@ async function main() {
       age: p.age,
       birth_date: p.birth_date,
       years_exp: p.years_exp,
+      fantasy_positions: p.fantasy_positions,
     };
   }
 
