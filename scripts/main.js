@@ -12,8 +12,8 @@
   try {
     [playersMap, rosters, users] = await Promise.all([
     getJSON("players.json"),
-    getJSON("https://api.sleeper.app/v1/league/1226594146450423808/rosters"),
-    getJSON("https://api.sleeper.app/v1/league/1226594146450423808/users"),
+    getJSON("https://api.sleeper.app/v1/league/1362433573851783168/rosters"),
+    getJSON("https://api.sleeper.app/v1/league/1362433573851783168/users"),
     ]);
   } catch (err) {
     console.error(err);
